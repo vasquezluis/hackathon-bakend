@@ -1,98 +1,166 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Hackathon Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+REST API for managing hackathons. Built with NestJS 11, Prisma ORM (PostgreSQL), Better Auth, and Arcjet security.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tech Stack
 
-## Description
+- **Runtime**: Node.js with TypeScript
+- **Framework**: NestJS 11 (Express adapter)
+- **Database**: PostgreSQL via Prisma ORM (Prisma Postgres)
+- **Authentication**: Better Auth (email and password, email verification, roles)
+- **Security**: Arcjet (rate limiting, bot detection) applied as a global guard
+- **Validation**: class validator + class transformer
+- **Code formatting**: Biome
+- **Tests**: Jest
+- **Package manager**: pnpm
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Project setup
+- User authentication with Better Auth (sign up, sign in, email verification)
+- Two roles: `ADMIN` and `PARTICIPANT`
+- Hackathon CRUD (create, read, update, delete) restricted to admins
+- Participants can join active hackathons
+- All responses wrapped in a uniform `{ statusCode, message, data }` shape
+- Arcjet rate limiting and bot protection on every route
+- Input validation with class validator DTOs
 
-```bash
-$ pnpm install
-```
+## Prerequisites
 
-## Compile and run the project
+- Node.js 18 or higher
+- pnpm
+- A PostgreSQL database (the project uses Prisma Postgres)
 
-```bash
-# development
-$ pnpm run start
+## Setup
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Run tests
+1. Install dependencies:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
 ```
 
-## Deployment
+2. Copy the `.env` file and fill in the values. You need:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```
+ARCJET_KEY=           # your Arcjet key
+ARCJET_ENV=           # development or production
+ARCJET_MODE=          # LIVE or DRY_RUN
+DATABASE_URL=         # your PostgreSQL connection string
+DIRECT_URL=           # same as DATABASE_URL for Prisma Postgres
+BETTER_AUTH_SECRET=   # generate with: npx @better-auth/cli@latest secret
+BETTER_AUTH_URL=      # your app URL, e.g. http://localhost:3000
+```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+3. Run Prisma migrations and generate the client:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm db:migrate
+pnpm db:generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Running the App
 
-## Resources
+```bash
+# development (watch mode)
+pnpm start:dev
 
-Check out a few resources that may come in handy when working with NestJS:
+# production build and run
+pnpm build
+pnpm start:prod
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The server listens on port 3000 by default (override with `PORT` in `.env`).
 
-## Support
+## API Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+All routes except `GET /` require authentication via Better Auth session.
 
-## Stay in touch
+### Auth (Better Auth)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Better Auth exposes its own routes under `/api/auth/*` for sign up, sign in, sign out, and email verification.
 
-## License
+### Hackathons
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+| Method | Path                  | Role         | Description                    |
+|--------|-----------------------|--------------|--------------------------------|
+| POST   | `/hackathon`          | ADMIN        | Create a new hackathon         |
+| GET    | `/hackathon`          | Authenticated | List all hackathons           |
+| GET    | `/hackathon/:id`      | Authenticated | Get a single hackathon        |
+| PATCH  | `/hackathon/:id`      | ADMIN        | Update a hackathon             |
+| DELETE | `/hackathon/:id`      | ADMIN        | Delete a hackathon             |
+| POST   | `/hackathon/:id/join` | PARTICIPANT  | Join an active hackathon       |
+
+**Create hackathon body:**
+
+```json
+{
+  "name": "Summer Code Cup",
+  "description": "A 48 hour coding sprint",
+  "startDate": "2026-08-01T00:00:00Z",
+  "endDate": "2026-08-03T00:00:00Z",
+  "isActive": true
+}
+```
+
+### Users
+
+| Method | Path         | Role           | Description                      |
+|--------|--------------|----------------|----------------------------------|
+| GET    | `/user/all`  | ADMIN          | List all users                   |
+| GET    | `/user/:id`  | Authenticated  | Get a single user by ID          |
+
+## Database
+
+Prisma schema lives in `prisma/schema.prisma`. Models:
+
+- **User** with a `role` field (`PARTICIPANT` or `ADMIN`)
+- **Session** and **Account** managed by Better Auth
+- **Verification** for email verification tokens
+- **Hackathon** with author, dates, and active status
+- **HackathonParticipant** join table (unique per user per hackathon)
+
+### Useful commands
+
+```bash
+pnpm db:migrate    # create and apply a migration
+pnpm db:generate   # regenerate the Prisma client
+pnpm db:format     # format the schema file
+pnpm db:studio     # open Prisma Studio (database GUI)
+```
+
+## Testing
+
+```bash
+pnpm test          # unit tests
+pnpm test:e2e      # end to end tests
+pnpm test:cov       # test coverage
+```
+
+## Project Structure
+
+```
+src/
+  common/            # shared guards, interceptors, decorators
+    decorators/      # @CurrentUser, @ResponseMessage, @Admin
+    guards/         # ArcjetGuard (global)
+    interceptors/   # ResponseInterceptor (wraps all responses)
+  lib/               # infrastructure modules (all @Global)
+    arcjet/         # Arcjet security module
+    auth/           # Better Auth setup and module
+    database/       # Prisma module and service
+  module/           # feature modules
+    hackathon/      # hackathon CRUD and join logic
+    user/           # user lookup endpoints
+  generated/         # Prisma client output (do not edit)
+  app.module.ts      # root module
+  main.ts            # bootstrap, global pipes and interceptors
+prisma/
+  schema.prisma      # database schema
+  migrations/         # migration history
+```
+
+## Conventions
+
+- All infrastructure modules are `@Global()` and imported once in `AppModule`
+- Feature modules live in `src/module/<name>/`
+- Services are injected through constructors (no manual instantiation)
+- Every response is wrapped by `ResponseInterceptor` with a `@ResponseMessage` decorator for custom messages
