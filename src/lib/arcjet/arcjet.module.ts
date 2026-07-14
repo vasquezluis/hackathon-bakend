@@ -13,7 +13,7 @@ import {
       isGlobal: true,
       key: process.env.ARCJET_KEY!,
       rules: [
-        shield({ mode: 'LIVE' }),
+        shield({ mode: process.env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN' }),
         detectBot({
           mode: 'DRY_RUN',
           allow: ['CATEGORY:SEARCH_ENGINE'],

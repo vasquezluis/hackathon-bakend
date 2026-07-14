@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Global AI Hackathon 2026",
+    "description": "A 48-hour hackathon where participants build AI-powered applications solving real-world problems.",
+    "startDate": "2026-09-01T09:00:00.000Z",
+    "endDate": "2026-09-03T18:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "name": "GreenTech Innovation Challenge",
+    "description": "Build sustainable technology solutions for a greener future. Open to all developers and designers.",
+    "startDate": "2026-10-15T08:00:00.000Z",
+    "endDate": "2026-10-17T20:00:00.000Z"
+  },
+  {
+    "name": "Minimal Valid Hackathon",
+    "description": "Shortest valid description here",
+    "startDate": "2026-12-01T00:00:00.000Z",
+    "endDate": "2026-12-02T23:59:59.000Z",
+    "isActive": false
+  },
+  {
+    "name": "Web3 & Blockchain Builder Jam",
+    "description": "A three-day deep dive into smart contracts, DeFi protocols, and decentralized applications. Teams of up to five will compete for prizes across multiple tracks including DeFi, NFTs, and infrastructure.",
+    "startDate": "2026-11-10T10:00:00.000Z",
+    "endDate": "2026-11-13T22:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "name": "Hack the Future",
+    "description": "Robotics and IoT hackathon for university students. Bring your own hardware or use ours.",
+    "startDate": "2027-01-20T09:00:00.000Z",
+    "endDate": "2027-01-22T17:00:00.000Z"
+  }
+]
